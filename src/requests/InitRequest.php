@@ -11,9 +11,8 @@ namespace sbank\requests;
 use sbank\common\Request;
 
 /**
- * @property string $language;
  */
-abstract class InitRequest extends Request
+class InitRequest extends Request
 {
     const LANGUAGES = ['ru', 'en'];
 
@@ -46,5 +45,13 @@ abstract class InitRequest extends Request
     public function getAddress()
     {
         return '/init';
+    }
+
+    protected function getPayload($data)
+    {
+        return [
+            "PATH" => $this->getAddress(),
+            $this->getMethod() => $data
+        ];
     }
 }

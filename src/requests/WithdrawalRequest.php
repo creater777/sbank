@@ -13,16 +13,12 @@ use sbank\common\Request;
 
 class WithdrawalRequest extends Request
 {
-    private $signature;
-
     public $amount;
     public $currency;
     public $merchant_id;
     public $notification_url;
     public $order;
     public $pan;
-
-//    public $api_secret;
 
     public function getMethod()
     {
@@ -32,5 +28,13 @@ class WithdrawalRequest extends Request
     public function getAddress()
     {
         return '/withdrawal_request';
+    }
+
+    protected function getPayload($data)
+    {
+        return [
+            "PATH" => $this->getAddress(),
+            $this->getMethod() => $data
+        ];
     }
 }

@@ -13,12 +13,10 @@ use sbank\common\Request;
 
 class WebhookSignDebug extends Request
 {
-    private $signature;
-
-    public $currency;
     public $merchant_id;
+    public $webhook_id;
+    public $api_secret;
 
-//    public $api_secret;
     public function getMethod()
     {
         return 'GET';
@@ -27,5 +25,13 @@ class WebhookSignDebug extends Request
     public function getAddress()
     {
         return '/webhook_sign_debug';
+    }
+
+    protected function getPayload($data)
+    {
+        return [
+            "PATH" => $this->getAddress(),
+            $this->getMethod() => $data
+        ];
     }
 }

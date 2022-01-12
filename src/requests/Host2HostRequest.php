@@ -11,8 +11,6 @@ namespace sbank\requests;
 
 class Host2HostRequest extends InitRequest
 {
-    private $signature;
-
     public $cvc;
     public $expire_month;
     public $expire_year;

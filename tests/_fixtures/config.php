@@ -1,26 +1,26 @@
 <?php
-$key = 'aa21444f3f71';
-$existOrder = 'order-'.uniqid();
-$drawalOrder = 'order-'.uniqid();
+$key = getenv('API_KEY') ?:'aa21444f3f71';
+$baseUri = getenv('BASE_URI') ?: 'https://sbank.gogo.vc';
 $notificationUrl = 'https://exemple.com';
 $finishUrl = 'https://exemple.com';
 
+$existOrder = 'order-'.uniqid();
+$drawalOrder = 'order-'.uniqid();
 
 $initData = [
     'amount' => '10',
-    'order' => $existOrder,
+    'order' => 'order-00003',
     'merchant_id' => '13',
     'product_id' => '15',
     'to_card' => '4111111111111111',
     'description' => 'sale',
     'language' => 'ru',
-    'finish_url' => $notificationUrl,
-    'notification_url' => $notificationUrl,
-    'api_secret' => $key
+    'finish_url' => 'https://exemple1.com',
+    'notification_url' => 'https://exemple1.com',
 ];
 
 $SBPRequest = $initData;
-$host2histRequest = array_merge($initData, [
+$host2hostRequest = array_merge($initData, [
     'pan' => '4111111111111111',
     'expire_month' => '01',
     'expire_year' => '25',
@@ -49,8 +49,7 @@ $statusRequest = [
 
 $balanceRequest = [
     'merchant_id' => '13',
-    'currency' => 'RUB',
-    'api_secret' => $key
+    'currency' => 'RUB'
 ];
 
 $drawalRequest = [
@@ -59,27 +58,30 @@ $drawalRequest = [
     'order' => $drawalOrder,
     'merchant_id' => '13',
     'notification_url' => $notificationUrl,
-    'pan' => '4242424242424242',
-    'api_secret' => $key
+    'pan' => '4242424242424242'
 ];
 
 $drawalStatusRequest = [
+    'merchant_id' => '13'
+];
+
+$webhookSignDebug = [
     'merchant_id' => '13',
-    'api_secret' => $key
+    'webhook_id' => ''
 ];
 
 return [
     'key' => $key,
-    'baseUri' => 'https://sbank.gogo.vc',
-//    'baseUri' => 'https://payhub.money',
+    'baseUri' => $baseUri,
     'finishUrl' => $notificationUrl,
     'notificationUrl' => $notificationUrl,
 
     'SBPRequest' => $SBPRequest,
-    'host2histRequest' => $host2histRequest,
+    'host2hostRequest' => $host2hostRequest,
     'threeDSRequest' => $threeDSRequest,
     'statusRequest' => $statusRequest,
     'balanceRequest' => $balanceRequest,
     'drawalRequest' => $drawalRequest,
-    'drawalStatusRequest' => $drawalStatusRequest
+    'drawalStatusRequest' => $drawalStatusRequest,
+    'webhookSignDebug' => $webhookSignDebug
 ];

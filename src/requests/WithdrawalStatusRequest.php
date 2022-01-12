@@ -5,8 +5,6 @@ use sbank\common\Request;
 
 class WithdrawalStatusRequest extends Request
 {
-    private $signature;
-
     public $id;
     public $merchant_id;
 
@@ -18,5 +16,13 @@ class WithdrawalStatusRequest extends Request
     public function getAddress()
     {
         return '/withdrawal_request';
+    }
+
+    protected function getPayload($data)
+    {
+        return [
+            "PATH" => $this->getAddress(),
+            $this->getMethod() => $data
+        ];
     }
 }

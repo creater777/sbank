@@ -25,4 +25,12 @@ class BalanceRequest extends Request
     {
         return '/balance';
     }
+
+    protected function getPayload($data)
+    {
+        return [
+            "PATH" => $this->getAddress(),
+            $this->getMethod() => $data
+        ];
+    }
 }

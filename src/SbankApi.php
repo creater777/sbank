@@ -10,15 +10,17 @@ namespace sbank;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
 use Jose\Component\Core\Util\JsonConverter;
 use sbank\common\Request;
 use sbank\requests\BalanceRequest;
 use sbank\requests\Host2HostRequest;
+use sbank\requests\InitRequest;
 use sbank\requests\SBPRequest;
 use sbank\requests\StatusRequest;
 use sbank\requests\ThreeDSRequest;
+use sbank\requests\WebhookSignDebug;
 use sbank\requests\WithdrawalRequest;
 use sbank\requests\WithdrawalStatusRequest;
 use sbank\callbacks\FinishCallback;
@@ -28,6 +30,7 @@ use sbank\callbacks\NotificationCallback;
  * Class SbankApiTest
  * @package sbank
  *
+ * @method init(array $data)
  * @method SBP(array $data)
  * @method host2host(array $data)
  * @method threeDS(array $data)
@@ -35,6 +38,7 @@ use sbank\callbacks\NotificationCallback;
  * @method balance(array $data)
  * @method withdrawal(array $data)
  * @method withdrawalStatus(array $data)
+ * @method webhookSignDebug(array $data)
  */
 class SbankApi
 {
@@ -45,14 +49,22 @@ class SbankApi
      */
     private $client;
 
+    /**
+     * @var Request $request
+     */
+    public $request = null;
+    public $responce = null;
+
     private const METHOD_MAP = [
+        'init' => InitRequest::class,
         'SBP' => SBPRequest::class,
         'host2host' => Host2HostRequest::class,
         'threeDS' => ThreeDSRequest::class,
         'status' => StatusRequest::class,
         'balance' => BalanceRequest::class,
         'withdrawal' => WithdrawalRequest::class,
-        'withdrawalStatus' => WithdrawalStatusRequest::class
+        'withdrawalStatus' => WithdrawalStatusRequest::class,
+        'webhookSignDebug' => WebhookSignDebug::class
     ];
 
     /**
@@ -81,19 +93,23 @@ class SbankApi
         if (!class_exists($className, true)){
             return null;
         }
-        /**
-         * @var Request $request
-         */
-        $request = new $className(...$arguments);
-        $address = $request->getAddress();
-        $options = $this->prepareOptions($request);
+        $this->request = new $className($this->api_secret, ...$arguments);
+        $options = $this->prepareOptions($this->request);
         try {
-            $response = $this->client->request($request->getMethod(), $address, $options)->getBody();
+            /**
+             * @var Response $response
+             */
+            $response = $this->client->request(
+                $this->request->getMethod(),
+                $this->request->getAddress(),
+                $options
+            )->getBody();
         } catch (GuzzleException $e) {
             throw new \Exception($e->getMessage());
         }
-        $result = $response->getContents();
-        return $result;
+//        $this->responce = JsonConverter::decode($response->getContents());
+        $this->responce = $response->getContents();
+        return $this->responce;
     }
 
     /**
@@ -101,8 +117,9 @@ class SbankApi
      * @return array|string
      */
     private function prepareOptions(Request $request){
-        $bodyArr = $request->getAsArray($this->api_secret);
+        $bodyArr = $request->getAsArray();
         $dataKey = $request->getMethod() === 'GET' ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS;
+//        var_dump($bodyArr);
         return [
             $dataKey => $bodyArr,
             'allow_redirects' => false

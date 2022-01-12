@@ -11,8 +11,6 @@ namespace sbank\requests;
 
 class ThreeDSRequest extends InitRequest
 {
-    private $signature;
-
     public $challenge_window_size;
     public $device_browser_accept_header;
     public $device_browser_color_depth;

@@ -16,5 +16,5 @@ namespace sbank\requests;
  */
 class SBPRequest extends InitRequest
 {
-    private $signature;
+
 }
