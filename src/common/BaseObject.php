@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 28.12.2021
- * Time: 17:13
- */
-
 namespace sbank\common;
 
 

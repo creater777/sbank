@@ -17,12 +17,4 @@ class WithdrawalStatusRequest extends Request
     {
         return '/withdrawal_request';
     }
-
-    protected function getPayload($data)
-    {
-        return [
-            "PATH" => $this->getAddress(),
-            $this->getMethod() => $data
-        ];
-    }
 }

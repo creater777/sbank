@@ -1,19 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 29.12.2021
- * Time: 10:50
- */
-
 namespace sbank\requests;
 
 
 use sbank\common\Request;
 
+/**
+ * Class BalanceRequest
+ *
+ * Получение баланса
+ *
+ * @package sbank\requests
+ */
 class BalanceRequest extends Request
 {
+    /**
+     * @var string $currency валюта счета (RUB по умолчанию)
+     */
     public $currency;
+
+    /**
+     * @var string $merchant_id ваш id в системе
+     */
     public $merchant_id;
 
     public function getMethod()
@@ -24,13 +31,5 @@ class BalanceRequest extends Request
     public function getAddress()
     {
         return '/balance';
-    }
-
-    protected function getPayload($data)
-    {
-        return [
-            "PATH" => $this->getAddress(),
-            $this->getMethod() => $data
-        ];
     }
 }

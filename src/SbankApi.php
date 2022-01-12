@@ -1,18 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 28.12.2021
- * Time: 12:24
- */
-
 namespace sbank;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
-use Jose\Component\Core\Util\JsonConverter;
+use Prophecy\Exception\Doubler\ClassNotFoundException;
 use sbank\common\Request;
 use sbank\requests\BalanceRequest;
 use sbank\requests\Host2HostRequest;
@@ -29,6 +22,11 @@ use sbank\callbacks\NotificationCallback;
 /**
  * Class SbankApiTest
  * @package sbank
+ *
+ * Реализованные методы апи.
+ * Реализация должна быть в классе с наймспейсом sbank/request
+ * в дирректории ./requests и наследоваться от sbank/common/Request
+ * Метод должен быть промаплен в METHOD_MAP
  *
  * @method init(array $data)
  * @method SBP(array $data)
@@ -84,14 +82,14 @@ class SbankApi
     /**
      * @param $name
      * @param $arguments
-     * @return |null
+     * @return Response
      * @throws \Exception
      */
-    public function __call($name, $arguments)
+    public function __call($name, $arguments): string
     {
         $className = self::METHOD_MAP[$name];
         if (!class_exists($className, true)){
-            return null;
+            throw new \Exception("$className not found");
         }
         $this->request = new $className($this->api_secret, ...$arguments);
         $options = $this->prepareOptions($this->request);
@@ -107,19 +105,18 @@ class SbankApi
         } catch (GuzzleException $e) {
             throw new \Exception($e->getMessage());
         }
-//        $this->responce = JsonConverter::decode($response->getContents());
         $this->responce = $response->getContents();
         return $this->responce;
     }
 
     /**
      * @param Request $request
-     * @return array|string
+     * @return array
      */
-    private function prepareOptions(Request $request){
+    private function prepareOptions(Request $request): array
+    {
         $bodyArr = $request->getAsArray();
         $dataKey = $request->getMethod() === 'GET' ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS;
-//        var_dump($bodyArr);
         return [
             $dataKey => $bodyArr,
             'allow_redirects' => false
@@ -144,7 +141,8 @@ class SbankApi
      * @param array $data
      * @return bool
      */
-    public function verifyNotificationSignature(array $data): bool{
+    public function verifyNotificationSignature(array $data): bool
+    {
         if (empty($data['signature'])){
             return false;
         }

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 28.12.2021
- * Time: 17:15
- */
-
 namespace sbank\requests;
 
 use sbank\common\Request;
@@ -45,13 +38,5 @@ class InitRequest extends Request
     public function getAddress()
     {
         return '/init';
-    }
-
-    protected function getPayload($data)
-    {
-        return [
-            "PATH" => $this->getAddress(),
-            $this->getMethod() => $data
-        ];
     }
 }

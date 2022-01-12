@@ -1,18 +1,13 @@
 {
     "name": "sbank/sdk",
     "keywords": ["sbank", "SDK"],
-    "homepage": "https://github.com/creater777/sbank-sdk",
     "description": "SBANK API SDK",
     "type": "library",
     "license": "MIT",
     "require": {
         "php": ">=7.2.5",
         "guzzlehttp/guzzle": "^6.3",
-        "ext-mbstring": "*",
-        "ext-json": "*",
-        "firebase/php-jwt": "^5.5",
-        "web-token/jwt-core": "^2.2",
-      "ext-fileinfo": "*"
+        "spomky-labs/base64url": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.3"

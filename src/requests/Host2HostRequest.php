@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 28.12.2021
- * Time: 17:56
- */
-
 namespace sbank\requests;
 
 

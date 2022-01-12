@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 29.12.2021
- * Time: 10:53
- */
-
 namespace sbank\requests;
 
 
@@ -28,13 +21,5 @@ class WithdrawalRequest extends Request
     public function getAddress()
     {
         return '/withdrawal_request';
-    }
-
-    protected function getPayload($data)
-    {
-        return [
-            "PATH" => $this->getAddress(),
-            $this->getMethod() => $data
-        ];
     }
 }

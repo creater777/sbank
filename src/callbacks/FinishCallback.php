@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 29.12.2021
- * Time: 4:10
- */
-
 namespace sbank\callbacks;
 
 

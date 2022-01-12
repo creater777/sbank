@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 29.12.2021
- * Time: 4:24
- */
-
 namespace sbank\requests;
 
 
@@ -25,13 +18,5 @@ class StatusRequest extends Request
     public function getAddress()
     {
         return '/status';
-    }
-
-    protected function getPayload($data)
-    {
-        return [
-            "PATH" => $this->getAddress(),
-            $this->getMethod() => $data
-        ];
     }
 }

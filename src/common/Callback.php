@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 30.12.2021
- * Time: 15:26
- */
-
 namespace sbank\common;
 
 
@@ -20,7 +13,7 @@ class Callback extends BaseObject
         ];
         $payload = $this->getAsArray();
         return Base64Url::encode(hash_hmac('sha256',
-            Base64Url::encode(JsonConverter::encode($head)).".".Base64Url::encode(JsonConverter::encode($payload)),
+            Base64Url::encode(JsonUtil::encode($head)).".".Base64Url::encode(JsonUtil::encode($payload)),
             $apiSecret,
             true
         ));

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Professional
- * Date: 29.12.2021
- * Time: 10:50
- */
-
 namespace sbank\requests;
 
 
@@ -25,13 +18,5 @@ class WebhookSignDebug extends Request
     public function getAddress()
     {
         return '/webhook_sign_debug';
-    }
-
-    protected function getPayload($data)
-    {
-        return [
-            "PATH" => $this->getAddress(),
-            $this->getMethod() => $data
-        ];
     }
 }

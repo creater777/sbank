@@ -1,6 +1,10 @@
 <?php
-$key = getenv('API_KEY') ?:'aa21444f3f71';
-$baseUri = getenv('BASE_URI') ?: 'https://sbank.gogo.vc';
+$key = getenv('API_KEY');
+$baseUri = getenv('BASE_URI');
+if (empty($key) || empty($baseUri)){
+    die("Need to set params API_KEY and BASE_URI");
+}
+
 $notificationUrl = 'https://exemple.com';
 $finishUrl = 'https://exemple.com';
 
@@ -15,8 +19,8 @@ $initData = [
     'to_card' => '4111111111111111',
     'description' => 'sale',
     'language' => 'ru',
-    'finish_url' => 'https://exemple1.com',
-    'notification_url' => 'https://exemple1.com',
+    'finish_url' => $finishUrl,
+    'notification_url' => $notificationUrl,
 ];
 
 $SBPRequest = $initData;
