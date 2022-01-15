@@ -3,7 +3,6 @@ namespace sbank\common;
 
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Util\JsonConverter;
 
 class Callback extends BaseObject
 {
