@@ -1,18 +1,20 @@
-#Sbank SDK
+<h1>Sbank SDK</h1>
 Обертка для получения доступа к api https://payhub.money
 
-##Установка
+<h2>Установка</h2>
+
 ```bash
 composer install sbank/sdk
 ```
 
-###Тестирование
+<h3>Тестирование</h3>
+
 ```bash
 runtests <API_KEY> <BASE_URL>
 ```
-### Пример использования
+<h3>Пример использования</h3>
 
-####Инициализация
+<h4>Инициализация</h4>
 
 ```php
 include "vendor/autoload.php";
@@ -23,7 +25,8 @@ $key = '1234567abcdef';
 $api = new SbankApi($key, 'https://sbank.host');
 ```
 
-####Оплата через систему быстрых платежей (СБП):
+<h4>Оплата через систему быстрых платежей (СБП):</h4>
+
 ```php
 $data = [
     'amount' => '10',
@@ -40,7 +43,8 @@ $data = [
 $result = json_decode($api->SBP($data));
 ```
 
-#####Ответ
+<h4>Ответ</h4>
+
 ```json
 {
   "status":"redirect",
